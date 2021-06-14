@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import data from './data';
 
-function App() {
+const App = () => {
+  const [input, setInput] = useState(0);
+  const [paragraphs, setParagraphs] = useState(0);
+  const [items, setItems] = useState(data);
+  useEffect(() => {
+    if (paragraphs < 0) {
+      setItems(data.slice(0, 1));
+    } else if (paragraphs >= 0) {
+      setItems(data.slice(0, paragraphs));
+    }
+  }, [paragraphs]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>tired of boring lorem ipsum</h1>
+      <input
+        type="number"
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+      />
+      <button onClick={() => setParagraphs(input)}>generate</button>
+      {items.map((item) => {
+        return (
+          <div key={item}>
+            <p>{item}</p>
+          </div>
+        );
+      })}
     </div>
   );
-}
+};
 
 export default App;
